@@ -25,7 +25,7 @@ import { useNavigate } from 'react-router-dom';
 
 const CheckOut = () => {
   
-  const { cartItems, getUser, user, placeOrder } = useFirebase();
+  const { cartItems, getUser, user, placeOrder,settings } = useFirebase();
   const cartArray = Object.values(cartItems || {});
   const [excludedIds, setExcludedIds] = useState<string[]>([]);
   const [dbUser, setdbUser] = useState();
@@ -114,10 +114,7 @@ const CheckOut = () => {
     setFormData(data);
     // setShowDialog(true);
   };
-if(!setting)
-  {
-    return;
-  }
+
   return (
     <>
       <div className="min-h-screen bg-gray-100 py-10 px-4 md:px-10">
@@ -333,7 +330,7 @@ if(!setting)
             {/* proceed Payment */}
             <div className="col-span-2 text-right mt-6">
               <button
-                className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-8 py-3 rounded-lg transition duration-200 shadow-md flex ml-auto items-center gap-2 cursor-pointer"
+                className="bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] hover:bg-red-600 text-white font-semibold px-8 py-3 rounded-lg transition duration-200 shadow-md flex ml-auto items-center gap-2 cursor-pointer"
                 disabled={ loading}
                 onClick={async() => {
                  
@@ -505,7 +502,7 @@ if(!setting)
             {/* proceed Payment */}
             <div className="col-span-2 text-right mt-6">
               <button
-                className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-8 py-3 rounded-lg transition duration-200 shadow-md flex ml-auto items-center gap-2 cursor-pointer"
+                className="bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] hover:bg-red-600 text-white font-semibold px-8 py-3 rounded-lg transition duration-200 shadow-md flex ml-auto items-center gap-2 cursor-pointer"
                 disabled={ loading}
                 onClick={() => {
                  

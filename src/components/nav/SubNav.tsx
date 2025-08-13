@@ -27,13 +27,13 @@ import { FaDownload, FaShoppingBag  } from "react-icons/fa";
 
 const SubNav = () => {
   const navigate = useNavigate();
-  const {setting}=useFirebase();
+  const {setting,Categories}=useFirebase();
   // console.log(setting);
   if(!setting)
   {
     return;
   }
-
+  
   const downloadPriceList = () => {
     const url = setting[0]?.pdfURL;
     if (url) {
@@ -61,6 +61,11 @@ const SubNav = () => {
     }
   };
 
+  if(!Categories)
+  {
+    return;
+  }
+
   return (
     <>
       {/* Desktop Nav */}
@@ -70,15 +75,46 @@ const SubNav = () => {
           <div className="flex items-center gap-6 whitespace-nowrap">
 
           {/* Account */}
-          <div
+         
+
+ <Popover>
+            <PopoverTrigger asChild>
+               <div
     className="flex items-center gap-2 cursor-pointer group transition-transform duration-300"
-    onClick={() => navigate('/shop')} 
+    // onClick={() => navigate('/shop')} 
       >
   <p className="flex items-center gap-2 bg-gradient-to-br from-[#00c853] to-[#b2ff59] text-white px-5 py-2 rounded-full shadow-md font-semibold group-hover:scale-105 transition-all duration-300">
     <FaShoppingBag className="text-white text-sm group-hover:rotate-6 transition-transform duration-300" />
     Shop Now
   </p>
 </div>
+            </PopoverTrigger>
+            <PopoverContent className="w-40 h-[500px] overflow-auto scroll-auto">
+                 
+                 <div
+                    className="px-4 py-2  hover:bg-gray-100 cursor-pointer"
+                    onClick={() => navigate(`/shop`)}
+                    
+                  >
+                    All Products
+                  </div>
+                
+                  {Object.values(Categories).map((Item,index)=>(
+                    <div
+                    className="px-4 py-2  hover:bg-gray-100 cursor-pointer"
+                    onClick={() => navigate(`/shop?id=${Item.generalName}`)}
+                    key={index}
+                  >
+                    {Item.generalName}
+                  </div>
+                  ))}
+                  
+                  
+                
+            
+              
+            </PopoverContent>
+          </Popover>
 
 
      
@@ -112,7 +148,7 @@ const SubNav = () => {
           </PopoverContent>
         </Popover> */}
           <div className="flex items-center gap-2 cursor-pointer group transition-transform duration-300" onClick={downloadPriceList}>
-            <p className="flex items-center gap-2 bg-gradient-to-br from-cyan-600 to-indigo-900 text-white px-5 py-2 rounded-full shadow-md group-hover:scale-105 transition-all duration-300">
+            <p className="flex items-center gap-2 bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] text-white px-5 py-2 rounded-full shadow-md group-hover:scale-105 transition-all duration-300">
               <FaDownload className="text-white text-sm group-hover:animate-bounce" />
               Download Price List
             </p>

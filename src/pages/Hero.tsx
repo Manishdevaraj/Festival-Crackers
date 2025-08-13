@@ -14,26 +14,26 @@ const Hero = () => {
     <>
       <Helmet>
         <title>
-         Sri Venkatesh Traders
+         Festival Crackers
         </title>
         <meta
           name="description"
-          content="Buy quality fireworks and crackers online at the lowest price from Sri Venkatesh Traders, Sivakasi — the Crackers City of India."
+          content="Buy quality fireworks and crackers online at the lowest price from Festival Crackers, Sivakasi — the Crackers City of India."
         />
         <meta
           name="keywords"
-          content="buy crackers online, sivakasi crackers, fireworks, Sri Venkatesh Traders, crackers city, quality crackers, cheap crackers, diwali crackers, discount crackers"
+          content="buy crackers online, sivakasi crackers, fireworks, Festival Crackers, crackers city, quality crackers, cheap crackers, diwali crackers, discount crackers"
         />
         <meta
           property="og:title"
-          content="Sri Venkatesh Traders - Quality Crackers from Sivakasi"
+          content="Festival Crackers - Quality Crackers from Sivakasi"
         />
         <meta
           property="og:description"
           content="Get the best deals on crackers directly from Sivakasi – India's Crackers City. Safe, certified, and budget-friendly fireworks."
         />
         <meta property="og:image" content="/meta/home-banner.jpg" />
-        <meta property="og:url" content="https://srivenkateshtraders.in/aboutus" />
+        <meta property="og:url" content="https://festivalcrackers.com/aboutus" />
       </Helmet>
       <div className="flex flex-col min-h-screen">
         <section className="flex-1">

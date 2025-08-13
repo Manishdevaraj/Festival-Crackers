@@ -154,7 +154,7 @@ export const ProductTableRow = React.memo(({ product }) => {
                   </div>
                 ) : (
                   <Button
-                    className="bg-gradient-to-br from-cyan-600 to-indigo-900 text-white text-xs px-3 py-1"
+                    className="bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] text-white text-xs px-3 py-1"
                     onClick={() => toggleCart(product)}
                   >
                     Add
@@ -236,7 +236,7 @@ export const ProductTableRow = React.memo(({ product }) => {
               </div>
             ) : (
               <Button
-                className="bg-gradient-to-br from-cyan-600 to-indigo-900 text-white text-sm"
+                className="bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] text-white text-sm"
                 onClick={() => toggleCart(product)}
               >
                 Add
@@ -400,6 +400,15 @@ const Shop = ({isStandardCrackers}) => {
     selectedCategories,
   ]);
 
+const productIdFromURL = searchParams.get("id");
+ useEffect(()=>{
+     if(productIdFromURL)
+     {
+       const filtered = products.filter((p) => String(p.CategoryName) === productIdFromURL);
+       setFilteredproducts(filtered);
+       setSelectedCategories([productIdFromURL]);
+     }
+ },[productIdFromURL])
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) =>
       prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
@@ -486,12 +495,20 @@ const Shop = ({isStandardCrackers}) => {
     return groups;
   }, [paginatedProducts]);
 
+  if(!Categories)
+  {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <img src="/loader.svg" className="w-[200px] h-[100px] text-4xl" />
+      </div>
+    );
+  }
+
   return (
     <>
-      <div className="min-h-screen px-4 md:px-10 py-10 bg-gray-50">
         <Helmet>
           <title>
-            Shop Crackers Online |  Sri Venkatesh Traders Sivakasi
+            Shop Crackers Online |  Festival Crackers Sivakasi
           </title>
           <meta
             name="description"
@@ -512,246 +529,305 @@ const Shop = ({isStandardCrackers}) => {
           <meta property="og:image" content="/meta/shop-banner.jpg" />
           <meta property="og:url" content="https://srivenkateshtraders.in/shop" />
         </Helmet>
-        <CartSummary />
+             
+        <div className="w-full">
+           <div className="flex flex-col md:px-10 py-3 md:flex-row md:items-center md:justify-between gap-4 mb-8 overflow-y-auto bg-gray-50">
+                <div className="flex items-center gap-3 flex-wrap overflow-y-auto">
+                  <Drawer>
+                    <DrawerTrigger asChild>
+                      <Button className="flex gap-2 items-center bg-gradient-to-br from-[#00c853] to-[#b2ff59] text-white">
+                        <FaFilter /> Filter
+                      </Button>
+                    </DrawerTrigger>
+                    <DrawerContent>
+                      <div className="p-4 space-y-6 overflow-y-auto">
+                        <div>
+                          <h2 className="font-semibold text-lg">Price</h2>
+                          <Slider
+                            defaultValue={priceRange}
+                            min={0}
+                            max={5000}
+                            step={10}
+                            onValueChange={setPriceRange}
+                          />
+                          <div className="text-sm text-muted-foreground mt-1">
+                            ₹{priceRange[0]} - ₹{priceRange[1]}
+                          </div>
+                        </div>
+                        <div>
+                          <h2 className="font-semibold text-lg">Tags</h2>
+                          <div className="flex flex-wrap gap-2 mt-2">
+                            {TAGS?.map((tag) => (
+                              <Button
+                                key={tag}
+                                variant={
+                                  selectedTags.includes(tag) ? "default" : "outline"
+                                }
+                                onClick={() => toggleTag(tag)}
+                              >
+                                {tag}
+                              </Button>
+                            ))}
+                          </div>
+                        </div>
+                        <div>
+                          <h2 className="font-semibold text-lg">Sort By</h2>
+                          <div className="flex flex-wrap gap-2 mt-2">
+                            {Object.entries(SORT_OPTIONS).map(([key, label]) => (
+                              <Button
+                                key={key}
+                                variant={sortOption === key ? "default" : "outline"}
+                                onClick={() => setSortOption(key)}
+                              >
+                                {label}
+                              </Button>
+                            ))}
+                          </div>
+                        </div>
+                        <div>
+                          <h2 className="font-semibold text-lg">Categories</h2>
+                          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-2">
+                            {/* {Array.isArray(multiBrandCategories)&&!isStandardCrackers &&
+                              multiBrandCategories.map((category) => (
+                                <button
+                                  key={category}
+                                  onClick={() => toggleCategory(category)}
+                                  className={`rounded-xl px-4 py-2 text-sm font-medium shadow-sm transition-colors border 
+                                ${
+                                  selectedCategories.includes(category)
+                                    ? "bg-emerald-500 text-white border-emerald-500"
+                                    : "bg-white text-gray-800 hover:bg-gray-100"
+                                }`}
+                                >
+                                  {category}
+                                </button>
+                              ))} */}
+                              {Array.isArray(standardCategories)&&isStandardCrackers &&
+                              standardCategories.map((category) => (
+                                <button
+                                  key={category}
+                                  onClick={() => toggleCategory(category)}
+                                  className={`rounded-xl px-4 py-2 text-sm font-medium shadow-sm transition-colors border 
+                                ${
+                                  selectedCategories.includes(category)
+                                    ? "bg-emerald-500 text-white border-emerald-500"
+                                    : "bg-white text-gray-800 hover:bg-gray-100"
+                                }`}
+                                >
+                                  {category}
+                                </button>
+                              ))}
+                          </div>
+                        </div>
+                      </div>
+                    </DrawerContent>
+                  </Drawer>
+                  <p className="text-gray-600 font-medium">
+                    We found {filteredproducts.length} items!
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleViewChange("grid")}
+                    className={`border p-2 rounded ${
+                      viewMode === "grid" ? "bg-gradient-to-br from-[#00c853] to-[#b2ff59]" : "bg-white"
+                    }`}
+                  >
+                    <FaThLarge />
+                  </button>
+                  <button
+                    onClick={() => handleViewChange("list")}
+                    className={`border p-2 rounded ${
+                      viewMode === "table" ? "bg-gradient-to-br from-[#00c853] to-[#b2ff59]" : "bg-white"
+                    }`}
+                  >
+                    <FaTable />
+                  </button>
+                </div>
+            </div>
 
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8 overflow-y-auto">
-          <div className="flex items-center gap-3 flex-wrap overflow-y-auto">
-            <Drawer>
-              <DrawerTrigger asChild>
-                <Button className="flex gap-2 items-center bg-gradient-to-br from-[#00c853] to-[#b2ff59] text-white">
-                  <FaFilter /> Filter
-                </Button>
-              </DrawerTrigger>
-              <DrawerContent>
-                <div className="p-4 space-y-6 overflow-y-auto">
-                  <div>
-                    <h2 className="font-semibold text-lg">Price</h2>
-                    <Slider
-                      defaultValue={priceRange}
-                      min={0}
-                      max={5000}
-                      step={10}
-                      onValueChange={setPriceRange}
-                    />
-                    <div className="text-sm text-muted-foreground mt-1">
-                      ₹{priceRange[0]} - ₹{priceRange[1]}
-                    </div>
-                  </div>
-                  <div>
-                    <h2 className="font-semibold text-lg">Tags</h2>
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {TAGS?.map((tag) => (
-                        <Button
-                          key={tag}
-                          variant={
-                            selectedTags.includes(tag) ? "default" : "outline"
-                          }
-                          onClick={() => toggleTag(tag)}
-                        >
-                          {tag}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <h2 className="font-semibold text-lg">Sort By</h2>
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {Object.entries(SORT_OPTIONS).map(([key, label]) => (
-                        <Button
-                          key={key}
-                          variant={sortOption === key ? "default" : "outline"}
-                          onClick={() => setSortOption(key)}
-                        >
-                          {label}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <h2 className="font-semibold text-lg">Categories</h2>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-2">
-                      {/* {Array.isArray(multiBrandCategories)&&!isStandardCrackers &&
-                        multiBrandCategories.map((category) => (
-                          <button
-                            key={category}
-                            onClick={() => toggleCategory(category)}
-                            className={`rounded-xl px-4 py-2 text-sm font-medium shadow-sm transition-colors border 
-                          ${
-                            selectedCategories.includes(category)
-                              ? "bg-emerald-500 text-white border-emerald-500"
-                              : "bg-white text-gray-800 hover:bg-gray-100"
-                          }`}
-                          >
-                            {category}
-                          </button>
-                        ))} */}
-                        {Array.isArray(standardCategories)&&isStandardCrackers &&
-                        standardCategories.map((category) => (
-                          <button
-                            key={category}
-                            onClick={() => toggleCategory(category)}
-                            className={`rounded-xl px-4 py-2 text-sm font-medium shadow-sm transition-colors border 
-                          ${
-                            selectedCategories.includes(category)
-                              ? "bg-emerald-500 text-white border-emerald-500"
-                              : "bg-white text-gray-800 hover:bg-gray-100"
-                          }`}
-                          >
-                            {category}
-                          </button>
+            <div className="flex  justify-center">
+          
+            <div className=" hidden md:block md:w-2/12 overflow-auto h-fit">
+                                <p className="font-bold text-xl text-center">All Categories</p>
+
+                                {Object.values(Categories)
+                                  .sort((a, b) => {
+                                    const aSelected = selectedCategories.includes(a.generalName);
+                                    const bSelected = selectedCategories.includes(b.generalName);
+
+                                    if (aSelected && bSelected) {
+                                      // Both selected → sort by ID (or your rank property)
+                                      return a.id - b.id; // assuming `id` is a number
+                                    }
+                                    if (aSelected) return -1; // a first
+                                    if (bSelected) return 1;  // b first
+                                    return 0; // keep original order for unselected
+                                  })
+                                  .map((item, index) => (
+                                    <div
+                                      key={index}
+                                      className={`p-2 flex flex-col items-center hover:bg-gray-100 cursor-pointer ${
+                                        selectedCategories.includes(item.generalName) ? 'bg-red-100' : 'bg-white'
+                                      }`}
+                                      onClick={() => toggleCategory(item.generalName)}
+                                    >
+                                      <img src="/logo.png" alt={item.generalName} />
+                                      <p>{item.generalName}</p>
+                                    </div>
+                                  ))}
+            </div>
+
+
+           <div className=" w-full md:w-10/12">
+                <div  className="flex md:justify-center md:items-center">
+                          <div className="flex item-center justify-center flex-wrap gap-2 mt-2">
+                          {/* <h2 className="font-semibold text-lg">Sort By</h2> */}
+
+                            {Object.entries(SORT_OPTIONS).map(([key, label]) => (
+                              <Button
+                                key={key}
+                                variant={sortOption === key ? "default" : "outline"}
+                                onClick={() => setSortOption(key)}
+                              >
+                                {label}
+                              </Button>
+                            ))}
+                          </div>
+                </div>
+                <div className="min-h-screen  px-4 md:px-10 py-10 bg-gray-50">
+                  <CartSummary />
+
+
+                  {viewMode === "grid" ? (
+                    groupedProducts ? (
+                      <>
+                        {Object.entries(groupedProducts).map(([category, items]) => (
+                          <div key={category} className="mb-8">
+                            {/* Category Heading */}
+                              <div className="mb-4">
+                                {/* Desktop View */}
+                                <div className="hidden sm:flex w-full justify-center items-center bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] border border-gray-300 rounded-md shadow px-4 py-2.5 text-white">
+                                  <h2 className="text-base font-semibold text-white tracking-wide">
+                                    {category}
+                                  </h2>
+                                </div>
+
+                                {/* Mobile View */}
+                                <div className="flex sm:hidden w-full justify-center items-center bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] border-b border-gray-300 rounded px-3 py-2 shadow-sm text-white">
+                                  <h2 className="text-sm font-medium text-white tracking-wide">
+                                    {category}
+                                  </h2>
+                                </div>
+                              </div>
+                            {/* Grid of Products */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+                              {items.map((product) => (
+                                <ProductCard key={product.id} product={product} />
+                              ))}
+                            </div>
+                          </div>
                         ))}
-                    </div>
-                  </div>
-                </div>
-              </DrawerContent>
-            </Drawer>
-            <p className="text-gray-600 font-medium">
-              We found {filteredproducts.length} items!
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <button
-              onClick={() => handleViewChange("grid")}
-              className={`border p-2 rounded ${
-                viewMode === "grid" ? "bg-gradient-to-br from-[#00c853] to-[#b2ff59]" : "bg-white"
-              }`}
-            >
-              <FaThLarge />
-            </button>
-            <button
-              onClick={() => handleViewChange("list")}
-              className={`border p-2 rounded ${
-                viewMode === "table" ? "bg-gradient-to-br from-[#00c853] to-[#b2ff59]" : "bg-white"
-              }`}
-            >
-              <FaTable />
-            </button>
-          </div>
-        </div>
-
-        {viewMode === "grid" ? (
-          groupedProducts ? (
-            <>
-              {Object.entries(groupedProducts).map(([category, items]) => (
-                <div key={category} className="mb-8">
-                  {/* Category Heading */}
-                    <div className="mb-4">
-                      {/* Desktop View */}
-                      <div className="hidden sm:flex w-full justify-center items-center bg-gradient-to-br from-cyan-600 to-indigo-900 border border-gray-300 rounded-md shadow px-4 py-2.5 text-white">
-                        <h2 className="text-base font-semibold text-white tracking-wide">
-                          {category}
-                        </h2>
-                      </div>
-
-                      {/* Mobile View */}
-                      <div className="flex sm:hidden w-full justify-center items-center bg-gradient-to-br from-cyan-600 to-indigo-900 border-b border-gray-300 rounded px-3 py-2 shadow-sm text-white">
-                        <h2 className="text-sm font-medium text-white tracking-wide">
-                          {category}
-                        </h2>
-                      </div>
-                    </div>
-                  {/* Grid of Products */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {items.map((product) => (
-                      <ProductCard key={product.id} product={product} />
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </>
-          ) : (
-            <p className="text-center text-sm text-gray-500">Loading...</p>
-          )
-        ) : (
-          <div className="w-full">
-            <div className="inline-block min-w-full align-middle bg-white rounded shadow">
-              <table className="w-full table-fixed sm:table-auto text-left text-sm">
-                <thead className="hidden sm:table-header-group bg-gray-100 uppercase text-xs">
-                  <tr>
-                    <th className="p-2 w-[30px] lg:w-[120px]">Image</th>
-                    <th className="p-2 w-[60px] lg:w-[120px]">Name</th>
-                    <th className="p-2 w-[30px] lg:w-[100px]">MRP</th>
-                    <th className="p-2 w-[30px] lg:w-[100px]">Offer Rate</th>
-                    <th className="p-2 w-[30px] lg:w-[100px]">Cart</th>
-                    <th className="p-2 w-[30px] lg:w-[100px]">Total</th> {/* New column */}
-                  </tr>
-                </thead>
-                <tbody>
-                  {groupedProducts ? (
-                    Object.entries(groupedProducts).map(
-                      ([category, products]) => (
-                        <React.Fragment key={category}>
-                          {/* Desktop Table Category Row */}
-                          <tr className="hidden sm:table-row bg-gradient-to-br from-cyan-600 to-indigo-900">
-                            <td colSpan={6} className="px-4 py-3 text-center border border-gray-300 rounded-md shadow">
-                              <span className="text-base font-semibold text-white tracking-wide">
-                                {category}
-                              </span>
-                            </td>
-                          </tr>
-
-                          {/* Mobile Table Category Row */}
-                          <tr className="block sm:hidden border-b bg-gradient-to-br from-cyan-600 to-indigo-900">
-                            <td className="p-3 text-center border-b border-gray-300 rounded">
-                              <span className="text-sm font-medium text-white tracking-wide">
-                                {category}
-                              </span>
-                            </td>
-                          </tr>
-
-                          {products.map((product) => (
-                            <ProductTableRow
-                              key={product.id}
-                              product={product}
-                            />
-                          ))}
-                        </React.Fragment>
-                      )
+                      </>
+                    ) : (
+                      <p className="text-center text-sm text-gray-500">Loading...</p>
                     )
                   ) : (
-                    <tr>
-                      <td
-                        colSpan={5}
-                        className="text-center text-gray-500 py-6"
-                      >
-                        Loading products...
-                      </td>
-                    </tr>
+                    <div className="w-full">
+                      <div className="inline-block min-w-full align-middle bg-white rounded shadow">
+                        <table className="w-full table-fixed sm:table-auto text-left text-sm">
+                          <thead className="hidden sm:table-header-group bg-gray-100 uppercase text-xs">
+                            <tr>
+                              <th className="p-2 w-[30px] lg:w-[120px]">Image</th>
+                              <th className="p-2 w-[60px] lg:w-[120px]">Name</th>
+                              <th className="p-2 w-[30px] lg:w-[100px]">MRP</th>
+                              <th className="p-2 w-[30px] lg:w-[100px]">Offer Rate</th>
+                              <th className="p-2 w-[30px] lg:w-[100px]">Cart</th>
+                              <th className="p-2 w-[30px] lg:w-[100px]">Total</th> {/* New column */}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {groupedProducts ? (
+                              Object.entries(groupedProducts).map(
+                                ([category, products]) => (
+                                  <React.Fragment key={category}>
+                                    {/* Desktop Table Category Row */}
+                                    <tr className="hidden sm:table-row bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] ">
+                                      <td colSpan={6} className="px-4 py-3 text-center border border-gray-300 rounded-md shadow">
+                                        <span className="text-base font-semibold text-white tracking-wide">
+                                          {category}
+                                        </span>
+                                      </td>
+                                    </tr>
+
+                                    {/* Mobile Table Category Row */}
+                                    <tr className="block sm:hidden border-b bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217]">
+                                      <td className="p-3 text-center border-b border-gray-300 rounded">
+                                        <span className="text-sm font-medium text-white tracking-wide">
+                                          {category}
+                                        </span>
+                                      </td>
+                                    </tr>
+
+                                    {products.map((product) => (
+                                      <ProductTableRow
+                                        key={product.id}
+                                        product={product}
+                                      />
+                                    ))}
+                                  </React.Fragment>
+                                )
+                              )
+                            ) : (
+                              <tr>
+                                <td
+                                  colSpan={5}
+                                  className="text-center text-gray-500 py-6"
+                                >
+                                  Loading products...
+                                </td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
                   )}
-                </tbody>
-              </table>
+
+                  {totalPages > 1 && (
+                    <Pagination className="mt-6 justify-center">
+                      <PaginationContent>
+                        <PaginationItem>
+                          <PaginationLink
+                            onClick={() =>
+                              setCurrentPage((prev) => Math.max(prev - 1, 1))
+                            }
+                          >
+                            &lt; Previous
+                          </PaginationLink>
+                        </PaginationItem>
+
+                        {renderPageNumbers()}
+
+                        <PaginationItem>
+                          <PaginationLink
+                            onClick={() =>
+                              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                            }
+                          >
+                            Next &gt;
+                          </PaginationLink>
+                        </PaginationItem>
+                      </PaginationContent>
+                    </Pagination>
+                  )}
+                </div>
+           </div>
+
+
             </div>
-          </div>
-        )}
-
-        {totalPages > 1 && (
-          <Pagination className="mt-6 justify-center">
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationLink
-                  onClick={() =>
-                    setCurrentPage((prev) => Math.max(prev - 1, 1))
-                  }
-                >
-                  &lt; Previous
-                </PaginationLink>
-              </PaginationItem>
-
-              {renderPageNumbers()}
-
-              <PaginationItem>
-                <PaginationLink
-                  onClick={() =>
-                    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                  }
-                >
-                  Next &gt;
-                </PaginationLink>
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        )}
-      </div>
+          
+        </div>
       <Footer />
     </>
   );

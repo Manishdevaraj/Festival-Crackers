@@ -35,7 +35,7 @@ import { EditSettings } from "./components/AdminProduct"
 // import Modal from './components/Modal'
 
 const App = () => {
-  const { setting, products, cartItems, TAGS, user, getUser, setdbUser, userloading } = useFirebase();
+  const { setting,Categories, products, cartItems, TAGS, user, getUser, setdbUser, userloading } = useFirebase();
   const [openDialog, setOpenDialog] = useState(false);
   const [isNewUser, setNewUser] = useState(false);
   const [toggle, settoggle] = useState(false);
@@ -113,7 +113,7 @@ const App = () => {
     setNewUser(true);
   };
 
-  if (!setting && !(products.length > 0) && !TAGS && userloading) {
+  if (!setting && !(products.length > 0) && !TAGS && userloading &&Categories) {
     return (
       <div className="flex items-center justify-center h-screen">
         <img src="/loader.svg" className="w-[200px] h-[100px] text-4xl" />
@@ -196,7 +196,7 @@ const App = () => {
           ref={whatsappRef}
           onMouseDown={handleMouseDown}
           onClick={openWhatsApp}
-          className="bg-gradient-to-br from-cyan-600 to-indigo-900 hover:bg-green-600 text-white p-3 rounded-full shadow-lg cursor-move"
+          className="bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] hover:bg-green-600 text-white p-3 rounded-full shadow-lg cursor-move"
         >
           <FaWhatsapp size={28} />
         </div>

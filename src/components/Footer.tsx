@@ -28,7 +28,7 @@ export default function Footer() {
   {/* Logo */}
   <img
     src="/logo.png"
-    alt="Sri Venkatesh Traders Logo"
+    alt="Festival Crackers Logo"
     className="h-12 w-12 object-contain"
   />
 
@@ -40,7 +40,7 @@ export default function Footer() {
 </div>
 
           <p className="text-sm mb-4">
-             Sri Venkatesh Traders is your one-stop destination to buy quality fireworks at the cheapest prices in Market. We offer a wide range of original Sivakasi crackers, fancy fireworks, and sparklers for all occasions. Celebrate safely and joyfully with trusted products from Market's leading cracker store.
+             Festival Crackers is your one-stop destination to buy quality fireworks at the cheapest prices in Market. We offer a wide range of original Sivakasi crackers, fancy fireworks, and sparklers for all occasions. Celebrate safely and joyfully with trusted products from Market's leading cracker store.
           </p>
 
           <div className="space-y-2 text-sm">

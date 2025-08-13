@@ -18,12 +18,17 @@ const MainNav = ({onProfileClick}) => {
     navigate('/shop');  
   };
 
-  const {setting}=useFirebase();
+  const {setting,Categories}=useFirebase();
   if(!setting)
   {
     return;
   }
+  if(!Categories)
+  {
+    return;
+  }
 
+  // console.log(Categories);
 
   return (
     <header className="bg-white shadow-md px-4 py-4">
@@ -38,14 +43,14 @@ const MainNav = ({onProfileClick}) => {
   {/* Logo */}
   <img
     src="/logo.png"
-    alt="Sri Venkatesh Traders"
+    alt="Festival Crackers"
     className="h-12 w-12 object-contain"
   />
 
   {/* Text */}
   <p className="text-xl font-bold tracking-wide">
-    <span className="text-black">Sri Venkatesh</span>{' '}
-    <span className="text-cyan-600">TRADERS</span>
+    <span className="text-black">FESTIVAL</span>{' '}
+    <span className="text-[#d6293e]">CRACKERS</span>
   </p>
 </div>
 
@@ -62,7 +67,7 @@ const MainNav = ({onProfileClick}) => {
           <button
             onClick={handleSearch}
             className="px-4 py-2 
-           bg-gradient-to-br from-cyan-600 to-indigo-900
+           bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217]
 
 text-white"
           >
@@ -145,7 +150,7 @@ text-white"
             </PopoverContent>
           </Popover>
 
-          {/* Wishlist */}
+    
           {/* <div
             className="flex items-center gap-2 cursor-pointer"
             onClick={() => navigate('/shop/multibrand')}
@@ -153,7 +158,7 @@ text-white"
             <FaShop />
             <span className="whitespace-nowrap">Shop Now</span>
           </div> */}
-          {/* <Popover>
+           <Popover>
             <PopoverTrigger asChild>
               <div className="flex items-center gap-2 cursor-pointer">
                 
@@ -161,30 +166,36 @@ text-white"
             <span className="whitespace-nowrap">Shop Now</span>
               </div>
             </PopoverTrigger>
-            <PopoverContent className="w-40">
-              
-                <div>
-                  <div
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => navigate('/shop/multibrand')}
+            <PopoverContent className="w-40 h-[500px] overflow-auto scroll-auto">
+                 
+                 <div
+                    className="px-4 py-2  hover:bg-gray-100 cursor-pointer"
+                    onClick={() => navigate(`/shop`)}
+                    
                   >
-                    MULTI BRAND CRACKERS
+                    All Products
                   </div>
-                  <div
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => navigate('/shop/standard')}
+                
+                  {Object.values(Categories).map((Item,index)=>(
+                    <div
+                    className="px-4 py-2  hover:bg-gray-100 cursor-pointer"
+                    onClick={() => navigate(`/shop?id=${Item.generalName}`)}
+                    key={index}
                   >
-                    STANDARD CRACKERS
+                    {Item.generalName}
                   </div>
-                </div>
+                  ))}
+                  
+                  
+                
             
               
             </PopoverContent>
-          </Popover> */}
-           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/shop')}>
+          </Popover> 
+           {/* <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/shop')}>
                   <FaShop />
             <span className="whitespace-nowrap">Shop Now</span>
-              </div>
+              </div> */}
 
           {/* Cart */}
           <div
@@ -193,7 +204,7 @@ text-white"
           >
             <FaShoppingCart />
             <span className="whitespace-nowrap">Cart</span>
-            <span className="absolute -top-2 -right-3 bg-gradient-to-br from-cyan-600 to-indigo-900  text-white text-xs px-2 py-0.5 rounded-full">
+            <span className="absolute -top-2 -right-3 bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217]  text-white text-xs px-2 py-0.5 rounded-full">
               {Object.keys(cartItems).length}
             </span>
           </div>
