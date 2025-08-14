@@ -668,11 +668,20 @@ const productIdFromURL = searchParams.get("id");
                                     <div
                                       key={index}
                                       className={`p-2 flex flex-col items-center hover:bg-gray-100 cursor-pointer ${
-                                        selectedCategories.includes(item.generalName) ? 'bg-red-100' : 'bg-white'
+                                        selectedCategories.includes(item.generalName) ? 'bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] text-white' : 'bg-white'
                                       }`}
                                       onClick={() => toggleCategory(item.generalName)}
                                     >
-                                      <img src="/logo.png" alt={item.generalName} />
+                                      {item.imageUrl ? (
+                                        <img
+                                          src={item.imageUrl}
+                                          alt={item.generalName}
+                                          className="w-[100px]  object-cover rounded"
+                                        />
+                                      ) : (
+                                        <img src="/logo.png" alt={item.generalName} />
+                                      )}
+                                      
                                       <p>{item.generalName}</p>
                                     </div>
                                   ))}

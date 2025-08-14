@@ -201,7 +201,7 @@ export const ProductCardComponent: React.FC<ProductCardProps> = React.memo(({ pr
         
         {/* Out of Stock Badge */}
         {!product.active && (
-          <div className="absolute top-3 left-3 bg-gradient-to-br from-cyan-600 to-indigo-900text-white text-xs font-semibold px-2 py-1 rounded z-10">
+          <div className="absolute top-3 left-3 bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] text-white text-xs font-semibold px-2 py-1 rounded z-10">
             Out of Stock
           </div>
         )}
@@ -274,7 +274,7 @@ export const ProductCardComponent: React.FC<ProductCardProps> = React.memo(({ pr
             </div>
           ) : product.active ? (
             <Button
-              className="bg-gradient-to-br from-cyan-600 to-indigo-900 text-white px-6 py-2 rounded-full mx-auto"
+              className="bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] text-white px-6 py-2 rounded-full mx-auto"
               onClick={() => toggleCart(product)}
             >
               Add To Cart

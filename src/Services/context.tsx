@@ -130,7 +130,7 @@ const [multiBrandCategories, setMultiBrandCategories] = useState<string[]>([]);
         const updates = {};
         for (const [productId, item] of Object.entries(guestCart))
            {
-          updates[`SVT/tempCart/${firebaseUser.uid}/${productId}`] = item;
+          updates[`FC/tempCart/${firebaseUser.uid}/${productId}`] = item;
         }
 
         await update(ref(database), updates); // Push all to Firebase in one go
@@ -138,7 +138,7 @@ const [multiBrandCategories, setMultiBrandCategories] = useState<string[]>([]);
         const guestWishlist = JSON.parse(localStorage.getItem('guestWishlist') || '[]');
         // console.log(guestWishlist);
   if (guestWishlist.length > 0) {
-    const wishlistRef = ref(database, `SVT/Wishlist/${firebaseUser.uid}`);
+    const wishlistRef = ref(database, `FC/Wishlist/${firebaseUser.uid}`);
     const snapshot = await get(wishlistRef);
     const existing = snapshot.exists() ? snapshot.val() : [];
 
@@ -171,7 +171,7 @@ useEffect(() => {
   }
 
   // ✅ For logged-in users: Sync from Firebase
-  const idsRef = ref(database, `SVT/Wishlist/${user.uid}`);
+  const idsRef = ref(database, `FC/Wishlist/${user.uid}`);
   const unsubscribe = onValue(idsRef, (snapshot) => {
     const data = snapshot.val();
     setWishlistIds(data ?? []);
@@ -183,7 +183,7 @@ useEffect(() => {
 
   useEffect(() => {
     if (user){
-    const cartRef = ref(database, `SVT/tempCart/${user?.uid}`);
+    const cartRef = ref(database, `FC/tempCart/${user?.uid}`);
     const unsubscribe = onValue(cartRef, (snapshot) => {
       setCartItems(snapshot.exists() ? snapshot.val() : {});
     });
@@ -198,7 +198,7 @@ useEffect(() => {
 
   
  useEffect(() => {
-    const productsRef = ref(database, "SVT/Products");
+    const productsRef = ref(database, "FC/Products");
     const unsubscribe = onValue(productsRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
@@ -216,7 +216,7 @@ useEffect(() => {
     return () => unsubscribe();
   }, []);
   useEffect(()=>{
- const TagsRef = ref(database, "SVT/GeneralMaster/Tags");
+ const TagsRef = ref(database, "FC/GeneralMaster/Tags");
     const unsubscribe = onValue(TagsRef, (snapshot) => {
       const data = snapshot.val();
      
@@ -227,7 +227,7 @@ useEffect(() => {
   }, []);
 
   useEffect(() => {
-  const CategoriesRef = ref(database, "SVT/GeneralMaster/Product Group");
+  const CategoriesRef = ref(database, "FC/GeneralMaster/Product Group");
 
   const unsubscribe = onValue(CategoriesRef, (snapshot) => {
     const data = snapshot.val();
@@ -297,7 +297,7 @@ useEffect(() => {
         };
 
         await set(
-          ref(database, `SVT/Customers/${userCredential.user.uid}`),
+          ref(database, `FC/Customers/${userCredential.user.uid}`),
           customerData
         );
       }
@@ -331,7 +331,7 @@ useEffect(() => {
           state: data.state,
         };
 
-      await set(ref(database, `SVT/Customers/${user.uid}`), customerData);
+      await set(ref(database, `FC/Customers/${user.uid}`), customerData);
       toast.success("Account updated successfully!");
         setLoading(false);
     } catch (error: any) {
@@ -382,7 +382,7 @@ useEffect(() => {
     return;
   }
 
-    const idsRef = ref(database, `SVT/Wishlist/${user.uid}`);
+    const idsRef = ref(database, `FC/Wishlist/${user.uid}`);
     const snapshot = await get(idsRef);
     let currentIds = snapshot.exists() ? snapshot.val() : [];
 
@@ -413,7 +413,7 @@ useEffect(() => {
 
     const productRef = ref(
       database,
-      `SVT/tempCart/${user.uid}/${product.productId}`
+      `FC/tempCart/${user.uid}/${product.productId}`
     );
     const snapshot = await get(productRef);
 
@@ -455,7 +455,7 @@ const updateCartQty = async (
     return;
   }
 
-    const productRef = ref(database, `SVT/tempCart/${user.uid}/${productId}`);
+    const productRef = ref(database, `FC/tempCart/${user.uid}/${productId}`);
   const snapshot = await get(productRef);
   // if (!snapshot.exists()) return;
 
@@ -487,7 +487,7 @@ const updateCartQty = async (
 
   const getUser = async () => {
     if (!user) return;
-    const userRef = ref(database, `SVT/Customers/${user.uid}`);
+    const userRef = ref(database, `FC/Customers/${user.uid}`);
     const snapshot = await get(userRef);
     return snapshot.exists() ? snapshot.val() : null;
   };
@@ -584,7 +584,7 @@ async function uploadOrderImage(imageFile, orderId) {
         }
         const guestorderRef = ref(
         database,
-        `SVT/CustomerOrder/${formData.phone}/${orderId}`
+        `FC/CustomerOrder/${formData.phone}/${orderId}`
       );
       
       const orderData = {
@@ -645,7 +645,7 @@ async function uploadOrderImage(imageFile, orderId) {
 
     const orderRef = ref(
         database,
-        `SVT/CustomerOrder/${user.uid}/${orderId}`
+        `FC/CustomerOrder/${user.uid}/${orderId}`
       );
       if (useExistingAddress && !dbUser?.accounterName) {
         toast.error("Please update address on profile");
@@ -773,7 +773,7 @@ async function uploadOrderImage(imageFile, orderId) {
       for (const item of billProductList) {
         const productRef = ref(
           database,
-          `SVT/tempCart/${user.uid}/${item.productId}`
+          `FC/tempCart/${user.uid}/${item.productId}`
         );
         await remove(productRef);
       }
@@ -793,34 +793,34 @@ async function uploadOrderImage(imageFile, orderId) {
 
   const getOrders = async () => {
     if (!user) return;
-    const orderRef = ref(database, `SVT/CustomerOrder/${user.uid}`);
+    const orderRef = ref(database, `FC/CustomerOrder/${user.uid}`);
     const snapshot = await get(orderRef);
     return snapshot.exists() ? snapshot.val() : null;
   };
 
   const getBannerUrls = async () => {
-    const urlRef = ref(database, `SVT/Settings`);
+    const urlRef = ref(database, `FC/Settings`);
     const snapshot = await get(urlRef);
     setSetting(snapshot.exists() ? snapshot.val() : null);
     // console.log(snapshot.exists() ? snapshot.val() : null)
     return snapshot.exists() ? snapshot.val() : null;
   };
    const getCustomerOrders = async () => {
-    const coRef = ref(database, `SVT/CustomerOrder`);
+    const coRef = ref(database, `FC/CustomerOrder`);
     const snapshot = await get(coRef);
     setSetting(snapshot.exists() ? snapshot.val() : null);
     // console.log(snapshot.exists() ? snapshot.val() : null)
     return snapshot.exists() ? snapshot.val() : null;
   };
   const getSingleCustomerOrder = async (uid, orderid) => {
-    const coRef = ref(database, `SVT/CustomerOrder/${uid}/${orderid}`);
+    const coRef = ref(database, `FC/CustomerOrder/${uid}/${orderid}`);
     const snapshot = await get(coRef);
     setSetting(snapshot.exists() ? snapshot.val() : null);
     // console.log(snapshot.exists() ? snapshot.val() : null)
     return snapshot.exists() ? snapshot.val() : null;
   };
   const getupdateCustomerOrders = async (uid, orderid, data) => {
-    const coRef = ref(database, `SVT/CustomerOrder/${uid}/${orderid}`);
+    const coRef = ref(database, `FC/CustomerOrder/${uid}/${orderid}`);
     await set(coRef, data);
     toast.success("Order Updated Successfully");
     // console.log(uid)
@@ -829,7 +829,7 @@ async function uploadOrderImage(imageFile, orderId) {
     // console.log(data)
   };
   async function getSparklerProducts() {
-  const coRef = ref(database, `SVT/Products`);
+  const coRef = ref(database, `FC/Products`);
   const snapshot = await get(coRef);
 
   if (snapshot.exists()) {
@@ -850,7 +850,7 @@ async function uploadOrderImage(imageFile, orderId) {
 }
 
  async function getMultiBrandProducts() {
-  const coRef = ref(database, `SVT/Products`);
+  const coRef = ref(database, `FC/Products`);
   const snapshot = await get(coRef);
 
   if (snapshot.exists()) {
@@ -870,7 +870,7 @@ async function uploadOrderImage(imageFile, orderId) {
   }
 }
 async function getgiftProducts() {
-  const coRef = ref(database, `SVT/Products`);
+  const coRef = ref(database, `FC/Products`);
   const snapshot = await get(coRef);
 
   if (snapshot.exists()) {
@@ -890,7 +890,7 @@ async function getgiftProducts() {
   }
 }
 async function getStandardGiftProducts() {
-  const coRef = ref(database, `SVT/Products`);
+  const coRef = ref(database, `FC/Products`);
   const snapshot = await get(coRef);
 
   if (snapshot.exists()) {

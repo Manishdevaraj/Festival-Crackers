@@ -58,9 +58,9 @@ const [isGuestSearch, setIsGuestSearch] = useState(false);
   let ordersRef;
 
   if (user) {
-    ordersRef = ref(database, `SVT/CustomerOrder/${user.uid}`);
+    ordersRef = ref(database, `FC/CustomerOrder/${user.uid}`);
   } else if (guestPhone.length === 10) {
-    ordersRef = ref(database, `SVT/CustomerOrder/${guestPhone}`);
+    ordersRef = ref(database, `FC/CustomerOrder/${guestPhone}`);
   } else {
     return;
   }

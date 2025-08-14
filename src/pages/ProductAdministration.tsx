@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React from 'react'
 import Shop from './Shop'
-import { AddProductToShop, EditProduct } from '@/components/AdminProduct'
+import { AddProductToShop, EditProduct, PrintPriceList } from '@/components/AdminProduct'
 
 const ProductAdministration = () => {
   return (
@@ -10,6 +10,7 @@ const ProductAdministration = () => {
 
            <AddProductToShop/>
            <EditProduct/>
+           <PrintPriceList/>
           </div>
     <Shop isStandardCrackers={true}/>
     </>
