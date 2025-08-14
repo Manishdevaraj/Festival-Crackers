@@ -34,8 +34,8 @@ export default function Footer() {
 
   {/* Text */}
   <p className="text-xl font-bold tracking-wide">
-    <span className="text-black">SRI VENEKATESH</span>{' '}
-    <span className="text-cyan-600">TRADERS</span>
+     <span className="text-black">FESTIVAL</span>{' '}
+    <span className="text-[#d6293e]">CRACKERS</span>
   </p>
 </div>
 
