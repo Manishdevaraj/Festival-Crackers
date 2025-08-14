@@ -330,7 +330,7 @@ const CheckOut = () => {
             {/* proceed Payment */}
             <div className="col-span-2 text-right mt-6">
               <button
-                className="bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] hover:bg-red-600 text-white font-semibold px-8 py-3 rounded-lg transition duration-200 shadow-md flex ml-auto items-center gap-2 cursor-pointer"
+                className="bg-gradient-to-r from-[#ffc100] via-[#ff9a00] via-[#ff7400] via-[#ff4d00] to-[#ff0000] hover:bg-red-600 text-white font-semibold px-8 py-3 rounded-lg transition duration-200 shadow-md flex ml-auto items-center gap-2 cursor-pointer"
                 disabled={ loading}
                 onClick={async() => {
                  
@@ -502,7 +502,7 @@ const CheckOut = () => {
             {/* proceed Payment */}
             <div className="col-span-2 text-right mt-6">
               <button
-                className="bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] hover:bg-red-600 text-white font-semibold px-8 py-3 rounded-lg transition duration-200 shadow-md flex ml-auto items-center gap-2 cursor-pointer"
+                className="bg-gradient-to-r from-[#ffc100] via-[#ff9a00] via-[#ff7400] via-[#ff4d00] to-[#ff0000] hover:bg-red-600 text-white font-semibold px-8 py-3 rounded-lg transition duration-200 shadow-md flex ml-auto items-center gap-2 cursor-pointer"
                 disabled={ loading}
                 onClick={() => {
                  

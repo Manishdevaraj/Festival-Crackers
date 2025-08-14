@@ -50,13 +50,13 @@ const MainNav = ({onProfileClick}) => {
   {/* Text */}
   <p className="text-xl font-bold tracking-wide">
     <span className="text-black">FESTIVAL</span>{' '}
-    <span className="text-[#d6293e]">CRACKERS</span>
+    <span className="text-[#ff0000]">CRACKERS</span>
   </p>
 </div>
 
 
         {/* Search */}
-        <div className="flex w-full md:w-1/2 border border-[#d6293e] rounded overflow-hidden">
+        <div className="flex w-full md:w-1/2 border border-[#ff0000] rounded overflow-hidden">
           <input
             type="text"
             placeholder="Search for items..."
@@ -67,9 +67,7 @@ const MainNav = ({onProfileClick}) => {
           <button
             onClick={handleSearch}
             className="px-4 py-2 
-           bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217]
-
-text-white"
+           bg-gradient-to-r from-[#ffc100] via-[#ff9a00] via-[#ff7400] via-[#ff4d00] to-[#ff0000] text-white"
           >
             <FaSearch />
           </button>
@@ -204,7 +202,7 @@ text-white"
           >
             <FaShoppingCart />
             <span className="whitespace-nowrap">Cart</span>
-            <span className="absolute -top-2 -right-3 bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217]  text-white text-xs px-2 py-0.5 rounded-full">
+            <span className="absolute -top-2 -right-3 bg-gradient-to-r from-[#ffc100] via-[#ff9a00] via-[#ff7400] via-[#ff4d00] to-[#ff0000]  text-white text-xs px-2 py-0.5 rounded-full">
               {Object.keys(cartItems).length}
             </span>
           </div>

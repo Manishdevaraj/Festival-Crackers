@@ -154,7 +154,7 @@ export const ProductTableRow = React.memo(({ product }) => {
                   </div>
                 ) : (
                   <Button
-                    className="bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] text-white text-xs px-3 py-1"
+                    className="bg-gradient-to-r from-[#ffc100] via-[#ff9a00] via-[#ff7400] via-[#ff4d00] to-[#ff0000] text-white text-xs px-3 py-1"
                     onClick={() => toggleCart(product)}
                   >
                     Add
@@ -236,7 +236,7 @@ export const ProductTableRow = React.memo(({ product }) => {
               </div>
             ) : (
               <Button
-                className="bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] text-white text-sm"
+                className="bg-gradient-to-r from-[#ffc100] via-[#ff9a00] via-[#ff7400] via-[#ff4d00] to-[#ff0000] text-white text-sm"
                 onClick={() => toggleCart(product)}
               >
                 Add
@@ -554,7 +554,7 @@ const productIdFromURL = searchParams.get("id");
                 <div className="flex items-center gap-3 flex-wrap overflow-y-auto">
                   <Drawer>
                     <DrawerTrigger asChild>
-                      <Button className="flex gap-2 items-center bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] text-white">
+                      <Button className="flex gap-2 items-center bg-gradient-to-r from-[#ffc100] via-[#ff9a00] via-[#ff7400] via-[#ff4d00] to-[#ff0000] text-white">
                         <FaFilter /> Filter
                       </Button>
                     </DrawerTrigger>
@@ -649,7 +649,7 @@ const productIdFromURL = searchParams.get("id");
                   <button
                     onClick={() => handleViewChange("grid")}
                     className={`border p-2 rounded ${
-                      viewMode === "grid" ? "bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] text-white" : "bg-white"
+                      viewMode === "grid" ? "bg-gradient-to-r from-[#ffc100] via-[#ff9a00] via-[#ff7400] via-[#ff4d00] to-[#ff0000] text-white" : "bg-white"
                     }`}
                   >
                     <FaThLarge />
@@ -657,7 +657,7 @@ const productIdFromURL = searchParams.get("id");
                   <button
                     onClick={() => handleViewChange("list")}
                     className={`border p-2 rounded ${
-                      viewMode === "list" ? "bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] text-white" : "bg-white"
+                      viewMode === "list" ? "bg-gradient-to-r from-[#ffc100] via-[#ff9a00] via-[#ff7400] via-[#ff4d00] to-[#ff0000] text-white" : "bg-white"
                     }`}
                   >
                     <FaTable />
@@ -668,7 +668,7 @@ const productIdFromURL = searchParams.get("id");
             <div className="flex  justify-center">
           
                 <div className="hidden md:block md:w-2/12 md:mt-2 overflow-auto">
-                                    <p className="font-bold text-xl text-center cursor-pointer mb-2" onClick={() => setSelectedCategories([])}>All Categories</p>
+                                    <Button className="font-bold text-xl text-center cursor-pointer mb-2 bg-gradient-to-r from-[#ffc100] via-[#ff9a00] via-[#ff7400] via-[#ff4d00] to-[#ff0000] ml-8" onClick={() => setSelectedCategories([])}>All Categories</Button>
 
                                     {Object.values(Categories)
                                       .sort((a, b) => {
@@ -687,9 +687,9 @@ const productIdFromURL = searchParams.get("id");
                                         <div
                                           key={index}
                                           className={`p-2 flex flex-col items-center hover:bg-gray-100 cursor-pointer ${
-                                            selectedCategories.includes(item.generalName) ? 'bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] text-white' : 'bg-gray-50'
+                                            selectedCategories.includes(item.generalName) ? 'bg-gradient-to-r from-[#ffc100] via-[#ff9a00] via-[#ff7400] via-[#ff4d00] to-[#ff0000] text-white' : 'bg-gray-50'
                                           }`}
-                                          onClick={() => toggleCategory(item.generalName)}
+                                          onClick={() => setSelectedCategories(item.generalName)}
                                         >
                                           {item.imageUrl ? (
                                             <img
@@ -789,7 +789,7 @@ const productIdFromURL = searchParams.get("id");
                                         </tr>
 
                                         {/* Mobile Table Category Row */}
-                                        <tr className="block sm:hidden border-b bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217]">
+                                        <tr className="block sm:hidden border-b bg-gradient-to-r from-[#ffc100] via-[#ff9a00] via-[#ff7400] via-[#ff4d00] to-[#ff0000]">
                                           <td className="p-3 text-center border-b border-gray-300 rounded">
                                             <span className="text-sm font-medium text-white tracking-wide">
                                               {category}

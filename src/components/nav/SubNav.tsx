@@ -148,7 +148,7 @@ const SubNav = () => {
           </PopoverContent>
         </Popover> */}
           <div className="flex items-center gap-2 cursor-pointer group transition-transform duration-300" onClick={downloadPriceList}>
-            <p className="flex items-center gap-2 bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] text-white px-5 py-2 rounded-full shadow-md group-hover:scale-105 transition-all duration-300">
+            <p className="flex items-center gap-2 bg-gradient-to-r from-[#ffc100] via-[#ff9a00] via-[#ff7400] via-[#ff4d00] to-[#ff0000] text-white px-5 py-2 rounded-full shadow-md group-hover:scale-105 transition-all duration-300">
               <FaDownload className="text-white text-sm group-hover:animate-bounce" />
               Download Price List
             </p>
