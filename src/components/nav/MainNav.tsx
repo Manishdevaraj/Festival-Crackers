@@ -56,7 +56,7 @@ const MainNav = ({onProfileClick}) => {
 
 
         {/* Search */}
-        <div className="flex w-full md:w-1/2 border border-cyan-600 rounded overflow-hidden">
+        <div className="flex w-full md:w-1/2 border border-[#d6293e] rounded overflow-hidden">
           <input
             type="text"
             placeholder="Search for items..."
