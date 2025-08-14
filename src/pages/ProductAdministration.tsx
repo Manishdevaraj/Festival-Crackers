@@ -10,8 +10,12 @@ const ProductAdministration = () => {
 
            <AddProductToShop/>
            <EditProduct/>
+          </div>
+          <div className='flex items-center justify-center'>
+
            <PrintPriceList/>
           </div>
+
     <Shop isStandardCrackers={true}/>
     </>
   )
