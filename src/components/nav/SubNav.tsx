@@ -83,7 +83,7 @@ const SubNav = () => {
     className="flex items-center gap-2 cursor-pointer group transition-transform duration-300"
     // onClick={() => navigate('/shop')} 
       >
-  <p className="flex items-center gap-2 bg-gradient-to-br from-[#00c853] to-[#b2ff59] text-white px-5 py-2 rounded-full shadow-md font-semibold group-hover:scale-105 transition-all duration-300">
+  <p className="flex items-center gap-2 bg-gradient-to-br from-black via-[#1a0d0d] to-black px-5 py-2 rounded-full shadow-md font-semibold group-hover:scale-105 transition-all duration-300 text-white">
     <FaShoppingBag className="text-white text-sm group-hover:rotate-6 transition-transform duration-300" />
     Shop Now
   </p>
@@ -93,7 +93,7 @@ const SubNav = () => {
                  
                  <div
                     className="px-4 py-2  hover:bg-gray-100 cursor-pointer"
-                    onClick={() => navigate(`/shop`)}
+                    onClick={() => navigate(`/shop?id=0`)}
                     
                   >
                     All Products
@@ -189,22 +189,39 @@ const SubNav = () => {
   >
     <DropdownMenuItem onClick={() => navigate('/')}>Home</DropdownMenuItem>
 
-    <DropdownMenuItem  onClick={() => navigate('/shop')}>
+    {/* <DropdownMenuItem  onClick={() => navigate('/shop')}>
       
   
     {/* <FaShoppingBag className="text-white text-sm" /> */}
-     Shop Now
+     {/* Shop Now */}
   
-    </DropdownMenuItem>
+    {/* </DropdownMenuItem> */} 
 
     {/* Submenu for Shop Now */}
-    {/* <DropdownMenuSub>
+    <DropdownMenuSub>
       <DropdownMenuSubTrigger>Shop Now</DropdownMenuSubTrigger>
-      <DropdownMenuSubContent className="w-48 rounded-md bg-white shadow-lg border p-2 space-y-1">
-        <DropdownMenuItem onClick={() => navigate('/shop/multibrand')}>MULTI BRAND CRACKERS</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => navigate('/shop/standard')}>STANDARD CRACKERS</DropdownMenuItem>
+      <DropdownMenuSubContent className="w-48 rounded-md bg-white shadow-lg border p-2 space-y-1 overflow-auto h-[500px]">
+        {/* <DropdownMenuItem onClick={() => navigate('/shop/multibrand')}>MULTI BRAND CRACKERS</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => navigate('/shop/standard')}>STANDARD CRACKERS</DropdownMenuItem> */}
+        <DropdownMenuItem
+                    className="px-4 py-2  hover:bg-gray-100 cursor-pointer"
+                    onClick={() => navigate(`/shop?id=0`)}
+                    
+                  >
+                    All Products
+                  </DropdownMenuItem>
+                
+                  {Object.values(Categories).map((Item,index)=>(
+                    <DropdownMenuItem
+                    className="px-4 py-2  overflow-auto  hover:bg-gray-100 cursor-pointer"
+                    onClick={() => navigate(`/shop?id=${Item.generalName}`)}
+                    key={index}
+                  >
+                    {Item.generalName}
+                  </DropdownMenuItem>
+                  ))}
       </DropdownMenuSubContent>
-    </DropdownMenuSub> */}
+    </DropdownMenuSub>
 
     <DropdownMenuItem onClick={() => navigate('/Wishlist')}>Wish List</DropdownMenuItem>
     <DropdownMenuItem onClick={() => navigate('/Cart')}>My Cart</DropdownMenuItem>

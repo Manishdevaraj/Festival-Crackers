@@ -170,7 +170,7 @@ text-white"
                  
                  <div
                     className="px-4 py-2  hover:bg-gray-100 cursor-pointer"
-                    onClick={() => navigate(`/shop`)}
+                    onClick={() => navigate(`/shop?id=0`)}
                     
                   >
                     All Products

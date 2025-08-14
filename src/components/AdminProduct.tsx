@@ -1545,10 +1545,22 @@ import autoTable from "jspdf-autotable";
 
 export const PrintPriceList = () => {
   const { products, Categories, setting } = useFirebase();
+  const [gmaster, setgmaster] = useState<any>(null);
 
-  if (!Categories || !products || !setting) {
+  useEffect(() => {
+    const cartRef = ref(database, `FC/GeneralMaster`);
+    const unsubscribe = onValue(cartRef, (snapshot) => {
+      setgmaster(snapshot.exists() ? snapshot.val() : {});
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  if (!Categories || !products || !setting || !gmaster) {
     return null;
   }
+
+  console.log(gmaster);
 
   const groupedData = Object.values(Categories)
     .map((cat: any) => ({
@@ -1556,6 +1568,11 @@ export const PrintPriceList = () => {
       products: products.filter((p: any) => p.productGroupId === cat.id),
     }))
     .filter((cat) => cat.products.length > 0);
+
+  // Helper to get UOM name by ID
+  const getUOMName = (id: string | number) => {
+    return gmaster?.UOM?.[id]?.generalName || "";
+  };
 
   const handlePrintPDF = async () => {
     const doc = new jsPDF();
@@ -1603,16 +1620,17 @@ export const PrintPriceList = () => {
     doc.text(phoneText, pageWidth / 2, yPos, { align: "center" });
     yPos += 12;
 
-    // ===== Loop through categories =====
+    let count = 1;
+
     groupedData.forEach((cat: any) => {
-      // ===== Calculate table height =====
+      // ===== Calculate table height for page break check =====
       const tempDoc = new jsPDF();
       autoTable(tempDoc, {
         head: [["No", "Product Name", "Per", "List Price", "Discount %", "Sales Price", "Qty", "Amount"]],
         body: cat.products.map((p: any, idx: number) => [
           idx + 1,
           p.productName || "",
-          p.per || "",
+          `${p.per || ""} ${getUOMName(p.uom)}`,
           Number(p.beforeDiscPrice?.toFixed(2)) || "",
           p.discPerc || "",
           Number(p.salesPrice?.toFixed(2)) || "",
@@ -1626,7 +1644,6 @@ export const PrintPriceList = () => {
       const tableHeight = (tempDoc as any).lastAutoTable.finalY - 10;
       const neededHeight = tableHeight + 10 + 6;
 
-      // ===== If not enough space, add new page =====
       if (pageHeight - yPos < neededHeight) {
         doc.addPage();
         yPos = 10;
@@ -1638,14 +1655,14 @@ export const PrintPriceList = () => {
       doc.text(cat.generalName, pageWidth / 2, yPos, { align: "center" });
       yPos += 6;
 
-      // ===== Actual Table =====
+      // ===== Real Table =====
       autoTable(doc, {
         startY: yPos,
         head: [["No", "Product Name", "Per", "List Price", "Discount %", "Sales Price", "Qty", "Amount"]],
-        body: cat.products.map((p: any, idx: number) => [
-          idx + 1,
+        body: cat.products.map((p: any) => [
+          count++,
           p.productName || "",
-          p.per || "",
+          `${p.per || ""} ${getUOMName(p.uom)}`,
           Number(p.beforeDiscPrice?.toFixed(2)) || "",
           p.discPerc || "",
           Number(p.salesPrice?.toFixed(2)) || "",
@@ -1674,9 +1691,9 @@ export const PrintPriceList = () => {
   };
 
   return (
-    <div>
-      <Button onClick={handlePrintPDF}>Print Product List</Button>
-    </div>
+    <Button onClick={handlePrintPDF} className="mb-2">
+      Print Product List
+    </Button>
   );
 };
 

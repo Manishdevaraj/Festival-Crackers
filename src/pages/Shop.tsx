@@ -404,6 +404,18 @@ const productIdFromURL = searchParams.get("id");
  useEffect(()=>{
      if(productIdFromURL)
      {
+      if(productIdFromURL==="0")
+      {
+        setSelectedCategories([]);
+        setFilteredproducts(products);
+        return;
+      }
+      if(productIdFromURL==="1")
+      {
+        // setSelectedCategories([]);
+        // setFilteredproducts(products);
+        return;
+      }
        const filtered = products.filter((p) => String(p.CategoryName) === productIdFromURL);
        setFilteredproducts(filtered);
        setSelectedCategories([productIdFromURL]);
@@ -416,11 +428,18 @@ const productIdFromURL = searchParams.get("id");
   };
 
   const toggleCategory = (category: string) => {
+    setSearchParams(prev => {
+  const sp = new URLSearchParams(prev);
+  sp.set("id", "1");
+  return sp;
+});
     setSelectedCategories((prev) =>
       prev.includes(category)
         ? prev.filter((c) => c !== category)
         : [...prev, category]
     );
+    
+    
   };
 
   const renderPageNumbers = () => {
@@ -530,12 +549,12 @@ const productIdFromURL = searchParams.get("id");
           <meta property="og:url" content="https://srivenkateshtraders.in/shop" />
         </Helmet>
              
-        <div className="w-full">
-           <div className="flex flex-col md:px-10 py-3 md:flex-row md:items-center md:justify-between gap-4 mb-8 overflow-y-auto bg-gray-50">
+        <div className="w-full bg-gray-50">
+           <div className="flex flex-col md:px-10 py-3 md:flex-row md:items-center md:justify-between gap-4 mb-8 overflow-y-auto">
                 <div className="flex items-center gap-3 flex-wrap overflow-y-auto">
                   <Drawer>
                     <DrawerTrigger asChild>
-                      <Button className="flex gap-2 items-center bg-gradient-to-br from-[#00c853] to-[#b2ff59] text-white">
+                      <Button className="flex gap-2 items-center bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] text-white">
                         <FaFilter /> Filter
                       </Button>
                     </DrawerTrigger>
@@ -630,7 +649,7 @@ const productIdFromURL = searchParams.get("id");
                   <button
                     onClick={() => handleViewChange("grid")}
                     className={`border p-2 rounded ${
-                      viewMode === "grid" ? "bg-gradient-to-br from-[#00c853] to-[#b2ff59]" : "bg-white"
+                      viewMode === "grid" ? "bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] text-white" : "bg-white"
                     }`}
                   >
                     <FaThLarge />
@@ -638,7 +657,7 @@ const productIdFromURL = searchParams.get("id");
                   <button
                     onClick={() => handleViewChange("list")}
                     className={`border p-2 rounded ${
-                      viewMode === "table" ? "bg-gradient-to-br from-[#00c853] to-[#b2ff59]" : "bg-white"
+                      viewMode === "list" ? "bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] text-white" : "bg-white"
                     }`}
                   >
                     <FaTable />
@@ -648,190 +667,190 @@ const productIdFromURL = searchParams.get("id");
 
             <div className="flex  justify-center">
           
-            <div className=" hidden md:block md:w-2/12 overflow-auto h-fit">
-                                <p className="font-bold text-xl text-center">All Categories</p>
+                <div className="hidden md:block md:w-2/12 md:mt-2 overflow-auto">
+                                    <p className="font-bold text-xl text-center cursor-pointer mb-2" onClick={() => setSelectedCategories([])}>All Categories</p>
 
-                                {Object.values(Categories)
-                                  .sort((a, b) => {
-                                    const aSelected = selectedCategories.includes(a.generalName);
-                                    const bSelected = selectedCategories.includes(b.generalName);
+                                    {Object.values(Categories)
+                                      .sort((a, b) => {
+                                        const aSelected = selectedCategories.includes(a.generalName);
+                                        const bSelected = selectedCategories.includes(b.generalName);
 
-                                    if (aSelected && bSelected) {
-                                      // Both selected → sort by ID (or your rank property)
-                                      return a.id - b.id; // assuming `id` is a number
-                                    }
-                                    if (aSelected) return -1; // a first
-                                    if (bSelected) return 1;  // b first
-                                    return 0; // keep original order for unselected
-                                  })
-                                  .map((item, index) => (
-                                    <div
-                                      key={index}
-                                      className={`p-2 flex flex-col items-center hover:bg-gray-100 cursor-pointer ${
-                                        selectedCategories.includes(item.generalName) ? 'bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] text-white' : 'bg-white'
-                                      }`}
-                                      onClick={() => toggleCategory(item.generalName)}
-                                    >
-                                      {item.imageUrl ? (
-                                        <img
-                                          src={item.imageUrl}
-                                          alt={item.generalName}
-                                          className="w-[100px]  object-cover rounded"
-                                        />
-                                      ) : (
-                                        <img src="/logo.png" alt={item.generalName} />
-                                      )}
-                                      
-                                      <p>{item.generalName}</p>
-                                    </div>
-                                  ))}
-            </div>
-
-
-           <div className=" w-full md:w-10/12">
-                <div  className="flex md:justify-center md:items-center">
-                          <div className="flex item-center justify-center flex-wrap gap-2 mt-2">
-                          {/* <h2 className="font-semibold text-lg">Sort By</h2> */}
-
-                            {Object.entries(SORT_OPTIONS).map(([key, label]) => (
-                              <Button
-                                key={key}
-                                variant={sortOption === key ? "default" : "outline"}
-                                onClick={() => setSortOption(key)}
-                              >
-                                {label}
-                              </Button>
-                            ))}
-                          </div>
+                                        if (aSelected && bSelected) {
+                                          // Both selected → sort by ID (or your rank property)
+                                          return a.id - b.id; // assuming `id` is a number
+                                        }
+                                        if (aSelected) return -1; // a first
+                                        if (bSelected) return 1;  // b first
+                                        return 0; // keep original order for unselected
+                                      })
+                                      .map((item, index) => (
+                                        <div
+                                          key={index}
+                                          className={`p-2 flex flex-col items-center hover:bg-gray-100 cursor-pointer ${
+                                            selectedCategories.includes(item.generalName) ? 'bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] text-white' : 'bg-gray-50'
+                                          }`}
+                                          onClick={() => toggleCategory(item.generalName)}
+                                        >
+                                          {item.imageUrl ? (
+                                            <img
+                                              src={item.imageUrl}
+                                              alt={item.generalName}
+                                              className="w-[100px]  object-cover rounded"
+                                            />
+                                          ) : (
+                                            <img src="/logo.png" className="w-[100px]  object-cover rounded" alt={item.generalName} />
+                                          )}
+                                          
+                                          <p>{item.generalName}</p>
+                                        </div>
+                                      ))}
                 </div>
-                <div className="min-h-screen  px-4 md:px-10 py-10 bg-gray-50">
-                  <CartSummary />
 
 
-                  {viewMode === "grid" ? (
-                    groupedProducts ? (
-                      <>
-                        {Object.entries(groupedProducts).map(([category, items]) => (
-                          <div key={category} className="mb-8">
-                            {/* Category Heading */}
-                              <div className="mb-4">
-                                {/* Desktop View */}
-                                <div className="hidden sm:flex w-full justify-center items-center bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] border border-gray-300 rounded-md shadow px-4 py-2.5 text-white">
-                                  <h2 className="text-base font-semibold text-white tracking-wide">
-                                    {category}
-                                  </h2>
-                                </div>
+              <div className=" w-full md:w-10/12">
+                    <div  className="flex md:justify-center md:items-center">
+                              <div className="flex item-center justify-center flex-wrap gap-2 mt-2">
+                              {/* <h2 className="font-semibold text-lg">Sort By</h2> */}
 
-                                {/* Mobile View */}
-                                <div className="flex sm:hidden w-full justify-center items-center bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] border-b border-gray-300 rounded px-3 py-2 shadow-sm text-white">
-                                  <h2 className="text-sm font-medium text-white tracking-wide">
-                                    {category}
-                                  </h2>
+                                {Object.entries(SORT_OPTIONS).map(([key, label]) => (
+                                  <Button
+                                    key={key}
+                                    variant={sortOption === key ? "default" : "outline"}
+                                    onClick={() => setSortOption(key)}
+                                  >
+                                    {label}
+                                  </Button>
+                                ))}
+                              </div>
+                    </div>
+                    <div className="min-h-screen  px-4 md:px-10 py-10 bg-gray-50">
+                      <CartSummary />
+
+
+                      {viewMode === "grid" ? (
+                        groupedProducts ? (
+                          <>
+                            {Object.entries(groupedProducts).map(([category, items]) => (
+                              <div key={category} className="mb-8">
+                                {/* Category Heading */}
+                                  <div className="mb-4">
+                                    {/* Desktop View */}
+                                    <div className="hidden sm:flex w-full justify-center items-center bg-gradient-to-br from-black via-[#1a0d0d] to-black border border-gray-300 rounded-md shadow px-4 py-2.5 text-white">
+                                      <h2 className="text-base font-semibold text-white tracking-wide">
+                                        {category}
+                                      </h2>
+                                    </div>
+
+                                    {/* Mobile View */}
+                                    <div className="flex sm:hidden w-full justify-center items-center bg-gradient-to-br from-black via-neutral-900 to-neutral-800  border-b border-gray-300 rounded px-3 py-2 shadow-sm text-white">
+                                      <h2 className="text-sm font-medium text-white tracking-wide">
+                                        {category}
+                                      </h2>
+                                    </div>
+                                  </div>
+                                {/* Grid of Products */}
+                                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+                                  {items.map((product) => (
+                                    <ProductCard key={product.id} product={product} />
+                                  ))}
                                 </div>
                               </div>
-                            {/* Grid of Products */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
-                              {items.map((product) => (
-                                <ProductCard key={product.id} product={product} />
-                              ))}
-                            </div>
+                            ))}
+                          </>
+                        ) : (
+                          <p className="text-center text-sm text-gray-500">Loading...</p>
+                        )
+                      ) : (
+                        <div className="w-full">
+                          <div className="inline-block min-w-full align-middle bg-white rounded shadow">
+                            <table className="w-full table-fixed sm:table-auto text-left text-sm">
+                              <thead className="hidden sm:table-header-group bg-gray-100 uppercase text-xs">
+                                <tr>
+                                  <th className="p-2 w-[30px] lg:w-[120px]">Image</th>
+                                  <th className="p-2 w-[60px] lg:w-[120px]">Name</th>
+                                  <th className="p-2 w-[30px] lg:w-[100px]">MRP</th>
+                                  <th className="p-2 w-[30px] lg:w-[100px]">Offer Rate</th>
+                                  <th className="p-2 w-[30px] lg:w-[100px]">Cart</th>
+                                  <th className="p-2 w-[30px] lg:w-[100px]">Total</th> {/* New column */}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {groupedProducts ? (
+                                  Object.entries(groupedProducts).map(
+                                    ([category, products]) => (
+                                      <React.Fragment key={category}>
+                                        {/* Desktop Table Category Row */}
+                                        <tr className="hidden sm:table-row bg-gradient-to-br from-black via-[#1a0d0d] to-black  ">
+                                          <td colSpan={6} className="px-4 py-3 text-center border border-gray-300 rounded-md shadow">
+                                            <span className="text-base font-semibold text-white tracking-wide">
+                                              {category}
+                                            </span>
+                                          </td>
+                                        </tr>
+
+                                        {/* Mobile Table Category Row */}
+                                        <tr className="block sm:hidden border-b bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217]">
+                                          <td className="p-3 text-center border-b border-gray-300 rounded">
+                                            <span className="text-sm font-medium text-white tracking-wide">
+                                              {category}
+                                            </span>
+                                          </td>
+                                        </tr>
+
+                                        {products.map((product) => (
+                                          <ProductTableRow
+                                            key={product.id}
+                                            product={product}
+                                          />
+                                        ))}
+                                      </React.Fragment>
+                                    )
+                                  )
+                                ) : (
+                                  <tr>
+                                    <td
+                                      colSpan={5}
+                                      className="text-center text-gray-500 py-6"
+                                    >
+                                      Loading products...
+                                    </td>
+                                  </tr>
+                                )}
+                              </tbody>
+                            </table>
                           </div>
-                        ))}
-                      </>
-                    ) : (
-                      <p className="text-center text-sm text-gray-500">Loading...</p>
-                    )
-                  ) : (
-                    <div className="w-full">
-                      <div className="inline-block min-w-full align-middle bg-white rounded shadow">
-                        <table className="w-full table-fixed sm:table-auto text-left text-sm">
-                          <thead className="hidden sm:table-header-group bg-gray-100 uppercase text-xs">
-                            <tr>
-                              <th className="p-2 w-[30px] lg:w-[120px]">Image</th>
-                              <th className="p-2 w-[60px] lg:w-[120px]">Name</th>
-                              <th className="p-2 w-[30px] lg:w-[100px]">MRP</th>
-                              <th className="p-2 w-[30px] lg:w-[100px]">Offer Rate</th>
-                              <th className="p-2 w-[30px] lg:w-[100px]">Cart</th>
-                              <th className="p-2 w-[30px] lg:w-[100px]">Total</th> {/* New column */}
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {groupedProducts ? (
-                              Object.entries(groupedProducts).map(
-                                ([category, products]) => (
-                                  <React.Fragment key={category}>
-                                    {/* Desktop Table Category Row */}
-                                    <tr className="hidden sm:table-row bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217] ">
-                                      <td colSpan={6} className="px-4 py-3 text-center border border-gray-300 rounded-md shadow">
-                                        <span className="text-base font-semibold text-white tracking-wide">
-                                          {category}
-                                        </span>
-                                      </td>
-                                    </tr>
+                        </div>
+                      )}
 
-                                    {/* Mobile Table Category Row */}
-                                    <tr className="block sm:hidden border-b bg-gradient-to-r from-[#ff5f6d] via-[#d6293e] to-[#b31217]">
-                                      <td className="p-3 text-center border-b border-gray-300 rounded">
-                                        <span className="text-sm font-medium text-white tracking-wide">
-                                          {category}
-                                        </span>
-                                      </td>
-                                    </tr>
+                      {totalPages > 1 && (
+                        <Pagination className="mt-6 justify-center">
+                          <PaginationContent>
+                            <PaginationItem>
+                              <PaginationLink
+                                onClick={() =>
+                                  setCurrentPage((prev) => Math.max(prev - 1, 1))
+                                }
+                              >
+                                &lt; Previous
+                              </PaginationLink>
+                            </PaginationItem>
 
-                                    {products.map((product) => (
-                                      <ProductTableRow
-                                        key={product.id}
-                                        product={product}
-                                      />
-                                    ))}
-                                  </React.Fragment>
-                                )
-                              )
-                            ) : (
-                              <tr>
-                                <td
-                                  colSpan={5}
-                                  className="text-center text-gray-500 py-6"
-                                >
-                                  Loading products...
-                                </td>
-                              </tr>
-                            )}
-                          </tbody>
-                        </table>
-                      </div>
+                            {renderPageNumbers()}
+
+                            <PaginationItem>
+                              <PaginationLink
+                                onClick={() =>
+                                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                                }
+                              >
+                                Next &gt;
+                              </PaginationLink>
+                            </PaginationItem>
+                          </PaginationContent>
+                        </Pagination>
+                      )}
                     </div>
-                  )}
-
-                  {totalPages > 1 && (
-                    <Pagination className="mt-6 justify-center">
-                      <PaginationContent>
-                        <PaginationItem>
-                          <PaginationLink
-                            onClick={() =>
-                              setCurrentPage((prev) => Math.max(prev - 1, 1))
-                            }
-                          >
-                            &lt; Previous
-                          </PaginationLink>
-                        </PaginationItem>
-
-                        {renderPageNumbers()}
-
-                        <PaginationItem>
-                          <PaginationLink
-                            onClick={() =>
-                              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                            }
-                          >
-                            Next &gt;
-                          </PaginationLink>
-                        </PaginationItem>
-                      </PaginationContent>
-                    </Pagination>
-                  )}
-                </div>
-           </div>
+              </div>
 
 
             </div>
